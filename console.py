@@ -4,12 +4,8 @@ import cmd
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
-from models.user import User
-from models.place import Place
 from models.state import State
 from models.city import City
-from models.amenity import Amenity
-from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
@@ -18,17 +14,13 @@ class HBNBCommand(cmd.Cmd):
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
-    classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+    classes = {'BaseModel': BaseModel, 'State': State, 'City': City}
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -146,7 +138,7 @@ class HBNBCommand(cmd.Cmd):
             setattr(new_instance, key, value)
         new_instance.save()
         print(new_instance.id)
-        
+
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
