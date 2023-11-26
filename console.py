@@ -10,6 +10,7 @@ from models.user import User
 from models.place import Place
 from models.review import Review
 
+
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
@@ -22,7 +23,9 @@ class HBNBCommand(cmd.Cmd):
         'City': City,
         'User': User,
         'Place': Place,
-        'Review': Review}
+        'Review': Review
+    }
+  
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
         'number_rooms': int, 'number_bathrooms': int,
