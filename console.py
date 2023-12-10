@@ -8,17 +8,18 @@ from models.state import State
 from models.city import City
 from models.user import User
 
+
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
-    
+
     classes = {'BaseModel': BaseModel,
                'State': State,
                'City': City,
                'User': User
-              }
+               }
 
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
@@ -230,7 +231,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             for k, v in storage.all().items():
                 print_list.append(str(v))
-
         print(print_list)
 
     def help_all(self):

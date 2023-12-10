@@ -55,19 +55,18 @@ class DBStorage:
             obj_id = {}
             for cls in cls_list:
                 try:
-                    cls_table = self.__session.query(cls).all()
-                except:
+                    cls_table = self.__session.query(cls)
+                except BaseException:
                     continue
                 for row in cls_table:
                     key = f"{row.__class__.__name__}.{row.id}"
                     obj_id[key] = row
         else:
-            cls_table = self.__session.query(cls).all()
+            cls_table = self.__session.query(cls)
             obj_id = {}
             for row in cls_table:
                 key = f"{row.__class__.__name__}.{row.id}"
                 obj_id[key] = row
-            print(obj_id)
         return obj_id
 
     def new(self, obj):
@@ -85,9 +84,7 @@ class DBStorage:
         """Commits all changes of the current database session.
         """
         try:
-            print("first")
             self.__session.commit()
-            print("second")
         except Exception as e:
             print("Error committing to database:", str(e))
 
@@ -109,6 +106,5 @@ class DBStorage:
                 bind=self.__engine, expire_on_commit=False)
             Session = scoped_session(session_factory)
             self.__session = Session()
-            print("Tables created successfully!")
         except Exception as e:
             print("Error creating tables:", str(e))
