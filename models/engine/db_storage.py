@@ -5,6 +5,12 @@ from os import getenv
 from models.base_model import BaseModel, Base
 from sqlalchemy import (create_engine)
 from sqlalchemy.orm import sessionmaker, scoped_session
+from models.state import State
+from models.city import City
+from models.user import User
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class DBStorage:
@@ -43,27 +49,25 @@ class DBStorage:
         Returns:
             list: A list of all objects of the given class.
         """
-        from models.state import State
-        from models.city import City
-        from models.user import User
-        from models.amenity import Amenity
-        from models.place import Place
-        from models.review import Review
 
         cls_list = [User, State, City, Amenity, Place, Review]
         if cls is None:
             obj_id = {}
             for cls in cls_list:
-                cls_table = DBStorage.__session.query(cls).all()
+                try:
+                    cls_table = self.__session.query(cls).all()
+                except:
+                    continue
                 for row in cls_table:
                     key = f"{row.__class__.__name__}.{row.id}"
                     obj_id[key] = row
         else:
-            cls_table = DBStorage.__session.query(cls).all()
+            cls_table = self.__session.query(cls).all()
             obj_id = {}
             for row in cls_table:
                 key = f"{row.__class__.__name__}.{row.id}"
                 obj_id[key] = row
+            print(obj_id)
         return obj_id
 
     def new(self, obj):
@@ -81,7 +85,9 @@ class DBStorage:
         """Commits all changes of the current database session.
         """
         try:
+            print("first")
             self.__session.commit()
+            print("second")
         except Exception as e:
             print("Error committing to database:", str(e))
 
