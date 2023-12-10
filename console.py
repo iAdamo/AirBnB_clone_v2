@@ -7,6 +7,7 @@ from models.__init__ import storage
 from models.state import State
 from models.city import City
 from models.user import User
+from models.place import Place
 
 
 class HBNBCommand(cmd.Cmd):
@@ -18,7 +19,8 @@ class HBNBCommand(cmd.Cmd):
     classes = {'BaseModel': BaseModel,
                'State': State,
                'City': City,
-               'User': User
+               'User': User,
+               'Place': Place
                }
 
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
