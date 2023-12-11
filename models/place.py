@@ -4,7 +4,6 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
-from models import storage
 from models.review import Review
 
 
@@ -32,6 +31,7 @@ class Place(BaseModel, Base):
         """getter attribute reviews that returns the list of Review instances
         with place_id equals to the current Place.id
         """
+        from models import storage
         all_reviews = storage.all(Review)
         place_reviews = []
         for review in all_reviews.values():
