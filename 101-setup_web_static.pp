@@ -6,6 +6,24 @@ exec { 'install_nginx':
   unless  => 'which nginx'
 }
 
+file { '/data':
+  ensure => 'directory',
+  owner  => 'ubuntu',
+  group  => 'ubuntu'
+}
+
+file { '/data/web_static':
+  ensure => 'directory',
+  owner  => 'ubuntu',
+  group  => 'ubuntu'
+}
+
+file { '/data/web_static/releases':
+  ensure => 'directory',
+  owner  => 'ubuntu',
+  group  => 'ubuntu'
+}
+
 file { '/data/web_static/releases/test':
   ensure => 'directory',
   owner  => 'ubuntu',
@@ -17,6 +35,7 @@ file { '/data/web_static/shared':
   owner  => 'ubuntu',
   group  => 'ubuntu'
 }
+
 $html_content = @(END)
 <html>
     <head>
@@ -27,12 +46,6 @@ $html_content = @(END)
 </html>
 | END
 
-file { '/data/web_static/releases/test/index.html':
-    ensure  => 'present',
-    content => $html_content,
-    owner   => 'ubuntu',
-    group   => 'ubuntu'
-}
 file { '/data/web_static/releases/test/index.html':
   ensure  => 'present',
   content => $html_content,
