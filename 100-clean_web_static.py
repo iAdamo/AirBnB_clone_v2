@@ -1,12 +1,8 @@
 #!/usr/bin/python3
-"""a Fabric script (based on the file 1-pack_web_static.py) that distributes
-an archive to your web servers, using the function do_deploy
-
-Usage: fab -f 2-do_deploy_web_static.py
-do_deploy:archive_path=versions/archive_name.tgz
--i my_ssh_private_key -u ubuntu
+# -*- coding: utf-8 -*-
+"""a Fabric script (based on the file 3-deploy_web_static.py) that deletes
+out-of-date archives, using the function
 """
-
 
 from fabric.api import put, run, env, local
 from os.path import exists
@@ -31,8 +27,7 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """distributes an archive to your web servers
-    """
+    """distributes an archive to your web servers"""
     if exists(archive_path) is False:
         return False
     try:
@@ -51,3 +46,24 @@ def do_deploy(archive_path):
         return True
     except BaseException:
         return False
+
+
+def deploy():
+    """creates and distributes an archive to your web servers
+    """
+    archive_path = do_pack()
+    if archive_path is None:
+        return False
+    return do_deploy(archive_path)
+
+
+def do_clean(number=0):
+    """deletes out-of-date archives"""
+    number = int(number)
+    if number == 0 or number == 1:
+        number = 2
+    else:
+        number += 1
+    local("cd versions; ls -t | tail -n +{} | xargs rm -rf --".format(number))
+    run("cd /data/web_static/releases; ls -t | tail -n +{} | xargs rm -rf --".
+        format(number))

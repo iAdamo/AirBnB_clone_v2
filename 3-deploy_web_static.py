@@ -12,14 +12,13 @@ env.hosts = ["35.175.134.9", "35.153.33.206"]
 
 
 def do_pack():
-    """generates a .tgz archive from the contents of the web_static folder
-"""
+    """generates a .tgz archive from the contents of the web_static folder"""
     local("mkdir -p versions")
 
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    tgz_file = f"versions/web_static_{timestamp}.tgz"
+    tgz_file = "versions/web_static_{}.tgz".format(timestamp)
 
-    result = local(f"tar -cvzf {tgz_file} web_static")
+    result = local("tar -cvzf {} web_static".format(tgz_file))
 
     if result.succeeded:
         return tgz_file
@@ -28,21 +27,20 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """distributes an archive to your web servers
-    """
+    """distributes an archive to your web servers"""
     if exists(archive_path) is False:
         return False
     try:
         put(archive_path, "/tmp/")
         file_name = archive_path.split("/")[-1]
-        path = f"/data/web_static/releases/{file_name.split('.')[0]}"
-        run(f"mkdir -p {path}")
-        run(f"tar -xzf /tmp/{file_name} -C {path}/")
-        run(f"rm /tmp/{file_name}")
-        run(f"mv {path}/web_static/* {path}/")
-        run(f"rm -rf {path}/web_static")
-        run(f"rm -rf /data/web_static/current")
-        run(f"ln -s {path}/ /data/web_static/current")
+        path = "/data/web_static/releases/{}".format(file_name.split('.')[0])
+        run("mkdir -p {}".format(path))
+        run("tar -xzf /tmp/{} -C {}/".format(file_name, path))
+        run("rm /tmp/{}".format(file_name))
+        run("mv {}/web_static/* {}/".format(path, path))
+        run("rm -rf {}/web_static".format(path))
+        run("rm -rf /data/web_static/current")
+        run("ln -s {}/ /data/web_static/current".format(path))
         run("sudo service nginx restart")
         print("New web version deployed!")
         return True
@@ -51,8 +49,7 @@ def do_deploy(archive_path):
 
 
 def deploy():
-    """creates and distributes an archive to your web servers
-    """
+    """creates and distributes an archive to your web servers"""
     archive_path = do_pack()
     if archive_path is None:
         return False
