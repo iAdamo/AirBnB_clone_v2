@@ -41,10 +41,9 @@ def do_deploy(archive_path):
         run("rm -rf {}/web_static".format(path))
         run("rm -rf /data/web_static/current")
         run("ln -s {}/ /data/web_static/current".format(path))
-        run("sudo service nginx restart")
-        print("New web version deployed!")
+        print("New version deployed!")
         return True
-    except BaseException:
+    except Exception:
         return False
 
 
