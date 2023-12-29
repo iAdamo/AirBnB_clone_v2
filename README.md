@@ -81,6 +81,14 @@ This concept is important: execute commands locally or remotely. Locally means i
 
 Fabric is taking care of all network connections (SSH, SCP etc.), it’s an easy tool for transferring, executing, etc. commands from locale to a remote server.
 
+## [**Web framework**](https://github.com/iAdamo/AirBnB_clone_v2)
+**`Python`** **`Back-end`** **`Webserver`** **`Flask`**
+A web framework is a software framework designed to aid the development of web applications, including web services, web resources, and web APIs. It provides a structure and a set of tools for building and managing web applications, making it easier for developers to create robust and scalable web projects.
+<a href=#>
+    <img src="https://s3.amazonaws.com/intranet-projects-files/concepts/74/hbnb_step3.png" alt="flask">
+</a>
+
+
 ### Collaborators:
 * [**Adam Sanusi Babatunde**](https://github.com/iAdamo)
 * [**Linda Nwanchukwu**](https://github.com/lyndha)
