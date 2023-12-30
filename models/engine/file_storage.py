@@ -21,17 +21,19 @@ class FileStorage:
             return FileStorage.__objects
 
     def new(self, obj):
-        """Adds new object to storage dictionary"""
-        self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
+        """sets in __objects (the obj) with key `<obj class name>.id`
+        """
+        key = '{}.{}'.format(obj.__class__.__name__, str(obj.id))
+        self.__objects[key] = obj
 
     def save(self):
-        """Saves storage dictionary to file"""
-        with open(FileStorage.__file_path, 'w') as f:
-            temp = {}
-            temp.update(FileStorage.__objects)
-            for key, val in temp.items():
-                temp[key] = val.to_dict()
-            json.dump(temp, f, indent=4)
+        """serializes __objects to the JSON file `(path: __file_path)`
+        """
+        obj_dict = {}
+        for key, value in FileStorage.__objects.items():
+            obj_dict[key] = value.to_dict()
+        with open(FileStorage.__file_path, 'w', encoding='utf-8') as file:
+            json.dump(obj_dict, file)
 
     def reload(self):
         """Loads storage dictionary from file"""
@@ -69,3 +71,8 @@ class FileStorage:
                     del FileStorage.__objects[obj_id]
                     FileStorage().save()
                     break
+                
+    def close(self):
+        """close method
+        """
+        self.reload()
