@@ -50,5 +50,18 @@ def python_route(text='is cool'):
     return f'Python {text}'
 
 
+@app.route('/number/<int:n>', strict_slashes=False)
+def number_route(n):
+    """Display "n is a number", only if n is an integer
+
+    Args:
+        n(string): Variable section to add to URL
+
+    Return:
+        variable content
+    """
+    return f'{n} is a number'
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
