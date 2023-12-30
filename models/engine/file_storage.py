@@ -71,7 +71,7 @@ class FileStorage:
                     del FileStorage.__objects[obj_id]
                     FileStorage().save()
                     break
-                
+
     def close(self):
         """close method
         """
